@@ -11,13 +11,12 @@ import (
 
 func main() {
 	router := gin.Default()
-
+	v1 := router.Group("/v1")
 	router.GET("/", introduce)
-
 	router.GET("/hello", helloWorld)
 	router.GET("/books/:id/:title", booksHandler)
 	router.GET("/query", queryHandler)
-	router.POST("/books", postBooksHandler)
+	v1.POST("/books", postBooksHandler)
 
 	router.Run(":8888")
 }
