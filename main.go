@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"pustaka-golang/book"
 	"pustaka-golang/handler"
 
 	"github.com/gin-gonic/gin"
@@ -12,12 +13,36 @@ import (
 
 func main() {
 	dsn := "host=localhost user=postgres password=postgres dbname=reza-golang port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-	_, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("db connection error")
 	}
-	fmt.Println("connection success")
+	db.AutoMigrate(&book.Book{})
+
+	// book := book.Book{}
+	// book.Title = "Ikan Manis"
+	// book.Price = 90000
+	// book.Discount = 40
+	// book.Description = "Hidup sudah sulit"
+
+	// err = db.Create(&book).Error
+	// if err != nil {
+	// 	fmt.Print("Error Insert")
+	// }
+
+	var books []book.Book
+
+	err = db.Debug().Find(&books).Error
+
+	if err != nil {
+		fmt.Println("Data not found")
+	}
+
+	for _, item := range books {
+		fmt.Println("Title : ", item.Title)
+		fmt.Println("Book Object : %v", item)
+	}
 
 	router := gin.Default()
 	v1 := router.Group("/v1")

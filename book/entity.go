@@ -2,12 +2,13 @@ package book
 
 import "time"
 
-type Entity struct {
+type Book struct {
 	Id          int
 	Title       string
 	Description string
 	Price       int
 	Rating      int
+	Discount    int
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
