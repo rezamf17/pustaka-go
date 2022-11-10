@@ -31,17 +31,32 @@ func main() {
 	// 	fmt.Print("Error Insert")
 	// }
 
-	var books []book.Book
+	// var books []book.Book
 
-	err = db.Debug().Find(&books).Error
+	// err = db.Debug().Find(&books).Error
 
+	// if err != nil {
+	// 	fmt.Println("Data not found")
+	// }
+
+	// for _, item := range books {
+	// 	fmt.Println("Title : ", item.Title)
+	// 	fmt.Println("Book Object : %v", item)
+	// }
+	var book book.Book
+	err = db.Debug().Where("id = ?", 1).First(&book).Error
 	if err != nil {
 		fmt.Println("Data not found")
 	}
+	book.Title = "Tiger Wong Son of Wong"
+	err = db.Save(&book).Error
+	if err != nil {
+		fmt.Println("Data change failed")
+	}
 
-	for _, item := range books {
-		fmt.Println("Title : ", item.Title)
-		fmt.Println("Book Object : %v", item)
+	err = db.Delete(&book).Error
+	if err != nil {
+		fmt.Println("Data delete failed")
 	}
 
 	router := gin.Default()
