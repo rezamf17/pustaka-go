@@ -18,7 +18,15 @@ func main() {
 		log.Fatal("db connection error")
 	}
 	db.AutoMigrate(&book.Book{})
+	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
 
+	bookRequest := book.BookRequest{
+		Title: "Gundam",
+		Price: "90000",
+	}
+
+	bookService.Create(bookRequest)
 	// dbRepository := book.NewRepository(db)
 
 	// book, err := dbRepository.FindByID(2)
@@ -28,16 +36,16 @@ func main() {
 	// 	fmt.Println("Title :", book.Title)
 	// }
 
-	bookRepository := book.NewRepository(db)
-	book := book.Book{
-		Title:       "Memburu Ikan Paus",
-		Description: "All about Fish",
-		Price:       15000,
-		Rating:      3,
-		Discount:    0,
-	}
+	// bookRepository := book.NewRepository(db)
+	// book := book.Book{
+	// 	Title:       "Memburu Ikan Paus",
+	// 	Description: "All about Fish",
+	// 	Price:       15000,
+	// 	Rating:      3,
+	// 	Discount:    0,
+	// }
 
-	bookRepository.Create(book)
+	// bookRepository.Create(book)
 
 	router := gin.Default()
 	v1 := router.Group("/v1")

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-type PostBooks struct {
+type BookRequest struct {
 	Title string      `json:"title" binding:"required"`
 	Price json.Number `json:"price" binding:"required,numeric"`
 }

@@ -24,7 +24,7 @@ func HelloWorld(ctx *gin.Context) {
 }
 
 func PostBooksHandler(ctx *gin.Context) {
-	var postBooks book.PostBooks
+	var postBooks book.BookRequest
 
 	err := ctx.ShouldBindJSON(&postBooks)
 	if err != nil {
