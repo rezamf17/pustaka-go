@@ -77,3 +77,20 @@ func (h *bookHandler) QueryHandler(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{"title": title, "price": price})
 }
+
+//get data semua buku
+
+func (h *bookHandler) GetAllBooks(ctx *gin.Context) {
+	books, err := h.bookService.FindAll()
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": books,
+	})
+}
