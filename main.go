@@ -20,13 +20,13 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 	bookRepository := book.NewRepository(db)
 	bookService := book.NewService(bookRepository)
+	bookHandler := handler.NewBookHandler(bookService)
+	// bookRequest := book.BookRequest{
+	// 	Title: "Gundam",
+	// 	Price: "90000",
+	// }
 
-	bookRequest := book.BookRequest{
-		Title: "Gundam",
-		Price: "90000",
-	}
-
-	bookService.Create(bookRequest)
+	// bookService.Create(bookRequest)
 	// dbRepository := book.NewRepository(db)
 
 	// book, err := dbRepository.FindByID(2)
@@ -49,11 +49,11 @@ func main() {
 
 	router := gin.Default()
 	v1 := router.Group("/v1")
-	router.GET("/", handler.Introduce)
-	router.GET("/hello", handler.HelloWorld)
-	router.GET("/books/:id/:title", handler.BooksHandler)
-	router.GET("/query", handler.QueryHandler)
-	v1.POST("/books", handler.PostBooksHandler)
+	router.GET("/", bookHandler.Introduce)
+	router.GET("/hello", bookHandler.HelloWorld)
+	router.GET("/books/:id/:title", bookHandler.BooksHandler)
+	router.GET("/query", bookHandler.QueryHandler)
+	v1.POST("/books", bookHandler.PostBooksHandler)
 
 	router.Run(":8888")
 }
