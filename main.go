@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"pustaka-golang/book"
 	"pustaka-golang/handler"
@@ -20,44 +19,25 @@ func main() {
 	}
 	db.AutoMigrate(&book.Book{})
 
-	// book := book.Book{}
-	// book.Title = "Ikan Manis"
-	// book.Price = 90000
-	// book.Discount = 40
-	// book.Description = "Hidup sudah sulit"
+	// dbRepository := book.NewRepository(db)
 
-	// err = db.Create(&book).Error
-	// if err != nil {
-	// 	fmt.Print("Error Insert")
+	// book, err := dbRepository.FindByID(2)
+
+	// fmt.Println("Title :", book.Title)
+	// for _, book := range books {
+	// 	fmt.Println("Title :", book.Title)
 	// }
 
-	// var books []book.Book
-
-	// err = db.Debug().Find(&books).Error
-
-	// if err != nil {
-	// 	fmt.Println("Data not found")
-	// }
-
-	// for _, item := range books {
-	// 	fmt.Println("Title : ", item.Title)
-	// 	fmt.Println("Book Object : %v", item)
-	// }
-	var book book.Book
-	err = db.Debug().Where("id = ?", 1).First(&book).Error
-	if err != nil {
-		fmt.Println("Data not found")
-	}
-	book.Title = "Tiger Wong Son of Wong"
-	err = db.Save(&book).Error
-	if err != nil {
-		fmt.Println("Data change failed")
+	bookRepository := book.NewRepository(db)
+	book := book.Book{
+		Title:       "Memburu Ikan Paus",
+		Description: "All about Fish",
+		Price:       15000,
+		Rating:      3,
+		Discount:    0,
 	}
 
-	err = db.Delete(&book).Error
-	if err != nil {
-		fmt.Println("Data delete failed")
-	}
+	bookRepository.Create(book)
 
 	router := gin.Default()
 	v1 := router.Group("/v1")
