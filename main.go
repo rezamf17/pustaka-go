@@ -54,6 +54,7 @@ func main() {
 	router.GET("/books/:id", bookHandler.GetBookId)
 	router.GET("/query", bookHandler.QueryHandler)
 	v1.POST("/books", bookHandler.PostBooksHandler)
+	v1.PUT("/books/:id", bookHandler.UpdateBook)
 
 	router.Run(":8888")
 }
