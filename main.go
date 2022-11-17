@@ -51,7 +51,7 @@ func main() {
 	v1 := router.Group("/v1")
 	router.GET("/books", bookHandler.GetAllBooks)
 	router.GET("/hello", bookHandler.HelloWorld)
-	router.GET("/books/:id/:title", bookHandler.BooksHandler)
+	router.GET("/books/:id", bookHandler.GetBookId)
 	router.GET("/query", bookHandler.QueryHandler)
 	v1.POST("/books", bookHandler.PostBooksHandler)
 

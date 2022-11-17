@@ -1,6 +1,10 @@
 package book
 
-import "gorm.io/gorm"
+import (
+	"fmt"
+
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	FindAll() ([]Book, error)
@@ -20,14 +24,15 @@ func (r *repository) FindAll() ([]Book, error) {
 	var books []Book
 
 	err := r.db.Find(&books).Error
+	fmt.Print(&books)
 	return books, err
 }
 
 func (r *repository) FindByID(ID int) (Book, error) {
 	var book Book
 
-	err := r.db.Find(&book).Error
-
+	err := r.db.Find(&book, ID).Error
+	// fmt.Println(&book.Discount)
 	return book, err
 }
 

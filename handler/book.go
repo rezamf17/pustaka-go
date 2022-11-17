@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"pustaka-golang/book"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -106,5 +107,23 @@ func (h *bookHandler) GetAllBooks(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"data": booksResponse,
+	})
+}
+
+func (h *bookHandler) GetBookId(ctx *gin.Context) {
+	idString := ctx.Param("id")
+	id, _ := strconv.Atoi(idString)
+	// fmt.Println(id)
+	book, err := h.bookService.FindByID(int(id))
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": book,
 	})
 }
