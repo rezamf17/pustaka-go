@@ -58,7 +58,7 @@ func (h *bookHandler) PostBooksHandler(ctx *gin.Context) {
 		})
 	}
 	ctx.JSON(http.StatusOK, gin.H{
-		"data": book,
+		"data": convertToBookResponse(book),
 	})
 }
 
@@ -91,7 +91,7 @@ func (h *bookHandler) UpdateBook(ctx *gin.Context) {
 		})
 	}
 	ctx.JSON(http.StatusOK, gin.H{
-		"data": book,
+		"data": convertToBookResponse(book),
 	})
 }
 
