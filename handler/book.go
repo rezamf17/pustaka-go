@@ -94,14 +94,7 @@ func (h *bookHandler) GetAllBooks(ctx *gin.Context) {
 	var booksResponse []book.BookResponse
 
 	for _, b := range books {
-		bookResponse := book.BookResponse{
-			ID:          b.Id,
-			Title:       b.Title,
-			Description: b.Description,
-			Price:       b.Price,
-			Rating:      b.Rating,
-			Discount:    b.Discount,
-		}
+		bookResponse := convertToBookResponse(b)
 		booksResponse = append(booksResponse, bookResponse)
 	}
 
@@ -116,14 +109,7 @@ func (h *bookHandler) GetBookId(ctx *gin.Context) {
 	// fmt.Println(id)
 	b, err := h.bookService.FindByID(int(id))
 
-	bookResponse := book.BookResponse{
-		ID:          b.Id,
-		Title:       b.Title,
-		Description: b.Description,
-		Price:       b.Price,
-		Rating:      b.Rating,
-		Discount:    b.Discount,
-	}
+	bookResponse := convertToBookResponse(b)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -135,4 +121,15 @@ func (h *bookHandler) GetBookId(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"data": bookResponse,
 	})
+}
+
+func convertToBookResponse(b book.Book) book.BookResponse {
+	return book.BookResponse{
+		ID:          b.Id,
+		Title:       b.Title,
+		Description: b.Description,
+		Price:       b.Price,
+		Rating:      b.Rating,
+		Discount:    b.Discount,
+	}
 }
