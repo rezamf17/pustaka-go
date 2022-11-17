@@ -114,7 +114,16 @@ func (h *bookHandler) GetBookId(ctx *gin.Context) {
 	idString := ctx.Param("id")
 	id, _ := strconv.Atoi(idString)
 	// fmt.Println(id)
-	book, err := h.bookService.FindByID(int(id))
+	b, err := h.bookService.FindByID(int(id))
+
+	bookResponse := book.BookResponse{
+		ID:          b.Id,
+		Title:       b.Title,
+		Description: b.Description,
+		Price:       b.Price,
+		Rating:      b.Rating,
+		Discount:    b.Discount,
+	}
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -124,6 +133,6 @@ func (h *bookHandler) GetBookId(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"data": book,
+		"data": bookResponse,
 	})
 }
